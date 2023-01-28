@@ -55,6 +55,16 @@
         "Turkishağzından": "araöznellik başpiskoposluk dipçiklenerek tüberkülozdan çokkültürlülük parçacıklardan acıöz mücadelelerine düşünülüyordu alışverişinin öldürüldüğünde nizâmnâmesi imparatorluğa çürütmüşlerdir çözülmesinde dönüşümleridir merkezîleşme iktisadî meşrulaştırdı jönlerinden bolşeviklerle şekillendirdi eşyıldızından dönüştürmektir göğsüne kâşif gösterdiğinden büyükşehirler fotoğrafçılık miğfer hükümetlerine haricîlerin uğraşıyorlardı milliyetçilik sıçramalarının çiğnenmiştir tarihöncesi birleşiklikten spiritüalizm düşüncelerinin direktörlüğünü dişhekimliği bağımsızlığını entelektüeller büyükelçisinin direktörlüğünü hikâyelerden böbreklere dönüştürmüştür"
     },
     "Features": {
+        "ccmp": {
+            "sample": "abcasdfgf",
+            "definition": "ccmp",
+            "abstract": "ccmp"
+        },
+        "kern": {
+            "sample": "AV",
+            "definition": "Kerning",
+            "abstract": "Kerning"
+        },
         "case": {
             "sample": "(Aardvark) [Ablution] 1980-1920 Acrimonious@gmail.com Adventures/Misadventures",
             "definition": "Case-Sensitive Forms: substitutes glyphs with forms better suited in all uppercase text",
@@ -155,5 +165,8 @@
             "definition": "Small Capitals From Capitals: substitutes lowercase characters to small capitals",
             "abstract": "Caps to Small Caps"
         }
+    },
+    "Juju": {
+        "for-juju": "Hello Juju!"
     }
 }

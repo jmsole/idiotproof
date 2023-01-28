@@ -12,6 +12,8 @@ var json = "src/js/proof.json";
 var utc = new Date().toJSON().slice(0,10).replace(/-/g,'/');
 var utcNoSlash = new Date().toJSON().slice(0,10).replace(/-/g,'');
 
+var otDefaults = ["kern", "ccmp", "calt", "rlig", "rvrn", "mark", "mmkmk", "init", "medi", "fina"];
+
 // Utility functions
 //------------------------
 function toggleClass(thisID, thisClass) {
@@ -172,10 +174,26 @@ function setStage(thisStage) {
 
                   }
                     html = '';
-                    gsubFeatures = font.tables.gsub.features;
+                    if (font.tables.gsub && font.tables.gsub.features) {
+                        gsubFeatures = font.tables.gsub.features;
+                    } else {
+                        gsubFeatures = ""
+                    };
+                    // gsubFeatures = font.tables.gsub.features;
+                    if (font.tables.gpos && font.tables.gpos.features) {
+                        gposFeatures = font.tables.gpos.features;
+                    } else {
+                        gposFeatures = ""
+                    };
                     var taglist = [];
                     for (var i in gsubFeatures) {
                         var tag = gsubFeatures[i].tag;
+                        if (proof["Features"][tag] != undefined) {
+                              taglist.push(tag);
+                        }
+                    }
+                    for (var i in gposFeatures) {
+                        var tag = gposFeatures[i].tag;
                         if (proof["Features"][tag] != undefined) {
                               taglist.push(tag);
                         }
@@ -240,7 +258,11 @@ function setStage(thisStage) {
                                     var tag = taglist[t];
                                     var name = proof["Features"][tag]["abstract"];
                                     html += '<div class="btn__setfont mt-1 d-block">';
-                                    html += '<input id="'+itemID+'-checkbox-'+tag+'" type="checkbox" name="" onclick="passfeatValue(\''+itemID+'\', \''+tag+'\', \''+taglist+'\')"> ';
+                                    if (otDefaults.includes(tag)) {
+                                        html += '<input id="'+itemID+'-checkbox-'+tag+'" type="checkbox" name="" onclick="passfeatValue(\''+itemID+'\', \''+tag+'\', \''+taglist+'\')" checked>';
+                                     } else {
+                                        html += '<input id="'+itemID+'-checkbox-'+tag+'" type="checkbox" name="" onclick="passfeatValue(\''+itemID+'\', \''+tag+'\', \''+taglist+'\')"> ';
+                                    }
                                     html += name+'<span class="float-right">'+tag+'</span></div>';
                               }
                               html += '</div>';
@@ -366,17 +388,38 @@ function passfvarValue(itemID,property,value,fvarSupport) {
 function passfeatValue(itemID,feature,featureSupport) {
       var featSupport = featureSupport.split(',');
       var featcss = "";
+    //   console.log(featSupport);
 
       for (f = 0; f < featSupport.length; f++) {
              if (document.getElementById(itemID+"-checkbox-"+featSupport[f]).checked) {
-                  featcss += "'"+featSupport[f]+"',";
+                  featcss += "'"+featSupport[f]+"' 1,";
                   // save in local storage
                   // saveData(itemID+"-feature-"+featSupport[f], featSupport[f]);
+            } else {
+                  featcss += "'"+featSupport[f]+"' 0,";
             }
        }
        featcss = featcss.replace(/,\s*$/, "");
       $("#"+itemID+" .testarea").css('font-feature-settings', featcss);
 }
+
+// function initfeatValue(taglist) {
+//     var featSupport = taglist.split(',');
+//     var featcss = "";
+//     console.log(featSupport);
+
+//     for (f = 0; f < featSupport.length; f++) {
+//            if (document.getElementById(itemID+"-checkbox-"+featSupport[f]).checked) {
+//                 featcss += "'"+featSupport[f]+"' 1,";
+//                 // save in local storage
+//                 // saveData(itemID+"-feature-"+featSupport[f], featSupport[f]);
+//           } else {
+//                 featcss += "'"+featSupport[f]+"' 0,";
+//           }
+//      }
+//      featcss = featcss.replace(/,\s*$/, "");
+//     // $("#"+itemID+" .testarea").css('font-feature-settings', featcss);
+// }
 
 function displayFontData(fontFamily) {
 
@@ -607,6 +650,7 @@ window.onload = function() {
     });
 
     document.body.className += " loaded";
+    // passfeatValue();
 }
 
 
